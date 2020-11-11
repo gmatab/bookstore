@@ -12,12 +12,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 import dao.DaoBook;
 import entities.Book;
 
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -127,7 +130,7 @@ public class Grid extends JFrame {
 		String query;
 		PreparedStatement st,st1 = null ;
 		ResultSet res,res1 = null ;
-		Book b;
+		Book b;			
 		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bookstore","root","");
 		System.out.print("xxxx");
 		query = "select * from book";
@@ -137,8 +140,10 @@ public class Grid extends JFrame {
 		res1=st1.executeQuery();
 		int j=0;
 		while(res1.next()) {j++;}
-		Object[][] data = new Object[j][5];
+		Object[][] data = new Object[j][6];
 		int i=0;
+		ImageIcon icon =new ImageIcon("C:\\Users\\Amen\\eclipse-workspace\\bookstore\\src\\gui\\iconb.png");
+
 		while(res.next()) {
 			System.out.println(res.getInt("id")+res.getString("title")+res.getString("author")+res.getDouble("price")+res.getDate("releaseDate"));
 			data [i][0]=res.getInt("id");
@@ -146,19 +151,30 @@ public class Grid extends JFrame {
 			data [i][2]=res.getString("author");
 			data [i][3] =res.getDouble("price");
 			data [i][4] =res.getDate("releaseDate");
+			data [i][5] =  icon ;
+
 			i++;
 		}
         String[] columns = new String[] {
-                "Id", "Title", "Author", "Price", "ReleaseDate"
+                "Id", "Title", "Author", "Price", "ReleaseDate","cover"
             };
         DefaultTableModel model = new DefaultTableModel(data, columns);
         table_1 = new JTable(model) {
+        	public Class getColumnClass(int column) {
+                return (column == 5) ? Icon.class : Object.class;
+              }
 		    @Override
 		    public boolean isCellEditable(int row, int column) {                
 		    	if(column == 0) return false;//the 4th column is not editable
 		        return true;
 		    };
 		};
+
+		
+		  table_1.setRowHeight(icon.getIconHeight());
+		    TableColumnModel columnModel = table_1.getColumnModel();
+		    //columnModel.getColumn(5).setPreferredWidth( icon.getIconWidth());
+		
         table_1.setFont(new Font("Tahoma", Font.ITALIC, 12));;
 		table_1.setAutoCreateColumnsFromModel(true);
 
