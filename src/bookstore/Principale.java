@@ -35,7 +35,7 @@ public static void main (String args[]) throws ClassNotFoundException, SQLExcept
 		System.out.println("Menu : ");
 		System.out.println("1- Ajoutez vous un book  ");
 		System.out.println("2- Afficher tous les book  ");
-		System.out.println("0- Afficher tous les book  ");
+		System.out.println("0- quitté  ");
 
 		System.out.println("donnez vous votre choix : ");
 	    Scanner myObj = new Scanner(System.in);
@@ -63,6 +63,8 @@ public static void main (String args[]) throws ClassNotFoundException, SQLExcept
 				price=myObj4.nextDouble();
 				b =new Book(id,title,author,price,d);
 				dao.addBook(b);
+				dao.deleteBook(11);
+
 				
 				break;
 			case 2:
