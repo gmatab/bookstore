@@ -9,13 +9,28 @@ public class Book {
 	private String author ;
 	private double price ;
 	private Date releaseDate ;
+	private String cover;
 	
+	public String getCover() {
+		return cover;
+	}
+	public void setCover(String cover) {
+		this.cover = cover;
+	}
 	public Book(int id, String title, String author, double price, Date releaseDate) {
 		this.id = id;
 		this.title = title;
 		this.author = author;
 		this.price = price;
 		this.releaseDate = releaseDate;
+	}
+	public Book(int id, String title, String author, double price, Date releaseDate,String cover) {
+		this.id = id;
+		this.title = title;
+		this.author = author;
+		this.price = price;
+		this.releaseDate = releaseDate;
+		this.cover = cover;
 	}
 	public int getId() {
 		return id;
@@ -50,7 +65,7 @@ public class Book {
 	@Override
 	public String toString() {
 		return "Book [id=" + id + ", title=" + title + ", author=" + author + ", price=" + price + ", releaseDate="
-				+ releaseDate + "]";
+				+ releaseDate + ", cover=" + cover + "]";
 	}
 	
 	

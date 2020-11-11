@@ -7,6 +7,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -56,8 +58,9 @@ public class Grid extends JFrame {
 	/**
 	 * Create the frame.
 	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
 	 */
-	public Grid() throws SQLException {
+	public Grid() throws SQLException, ClassNotFoundException {
 
 				setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 486, 336);
@@ -118,43 +121,39 @@ public class Grid extends JFrame {
 		lblNewLabel.setBounds(120, 279, 277, 14);
 		contentPane.add(lblNewLabel);
 		
+		JLabel lblNewLabel_1 = new JLabel("List of Books");
+		lblNewLabel_1.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 13));
+		lblNewLabel_1.setBounds(10, 7, 387, 23);
+		contentPane.add(lblNewLabel_1);
+		
 		
        
 
    
 
 	}
-	public void affgrid () throws SQLException {
+	public void affgrid () throws SQLException, ClassNotFoundException {
 		
-		java.sql.Connection conn=null;
-		String query;
-		PreparedStatement st,st1 = null ;
-		ResultSet res,res1 = null ;
-		Book b;			
-		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bookstore","root","");
-		System.out.print("xxxx");
-		query = "select * from book";
-		st = conn.prepareStatement(query);
-		st1 = conn.prepareStatement(query);
-		res=st.executeQuery();
-		res1=st1.executeQuery();
-		int j=0;
-		while(res1.next()) {j++;}
+		
+		DaoBook dao= new DaoBook();
+		List <Book> books =new ArrayList<>(); 
+		books=dao.listBook();
+		int j=books.size();
 		Object[][] data = new Object[j][6];
 		int i=0;
 		ImageIcon icon =new ImageIcon("C:\\Users\\Amen\\eclipse-workspace\\bookstore\\src\\gui\\iconb.png");
+		for(Book bo : books)
+	    {
+			System.out.println(bo.getId());
 
-		while(res.next()) {
-			System.out.println(res.getInt("id")+res.getString("title")+res.getString("author")+res.getDouble("price")+res.getDate("releaseDate"));
-			data [i][0]=res.getInt("id");
-			data [i][1]=res.getString("title");
-			data [i][2]=res.getString("author");
-			data [i][3] =res.getDouble("price");
-			data [i][4] =res.getDate("releaseDate");
-			data [i][5] =  icon ;
-
+			data [i][0]=bo.getId();
+			data [i][1]=bo.getTitle();
+			data [i][2]=bo.getAuthor();
+			data [i][3] =bo.getPrice();
+			data [i][4] =bo.getReleaseDate();
+			data [i][5] =new ImageIcon(bo.getCover()) ;
 			i++;
-		}
+	    }
         String[] columns = new String[] {
                 "Id", "Title", "Author", "Price", "ReleaseDate","cover"
             };
@@ -173,14 +172,10 @@ public class Grid extends JFrame {
 		
 		  table_1.setRowHeight(icon.getIconHeight());
 		    TableColumnModel columnModel = table_1.getColumnModel();
-		    //columnModel.getColumn(5).setPreferredWidth( icon.getIconWidth());
+		   columnModel.getColumn(5).setPreferredWidth( icon.getIconWidth());
 		
         table_1.setFont(new Font("Tahoma", Font.ITALIC, 12));;
 		table_1.setAutoCreateColumnsFromModel(true);
 
 	}
-
-		
-		
-	
 }

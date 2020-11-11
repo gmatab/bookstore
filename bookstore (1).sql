@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : lun. 09 nov. 2020 à 22:23
+-- Généré le : mer. 11 nov. 2020 à 16:03
 -- Version du serveur :  10.4.14-MariaDB
 -- Version de PHP : 7.2.34
 
@@ -32,20 +32,21 @@ CREATE TABLE `book` (
   `title` varchar(50) NOT NULL,
   `price` double NOT NULL,
   `author` varchar(50) NOT NULL,
-  `releaseDate` date NOT NULL
+  `releaseDate` date NOT NULL,
+  `cover` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `book`
 --
 
-INSERT INTO `book` (`id`, `title`, `price`, `author`, `releaseDate`) VALUES
-(11, 'amen', 10, 'amen', '1970-01-01'),
-(13, 'amen', 10, 'amen', '1970-01-01'),
-(134, 'amen', 10, 'amen', '1970-01-01'),
-(1344, 'amen', 10, 'amen', '1970-01-01'),
-(6565, 'bb', 20, 'aa', '1970-01-01'),
-(13454, 'amen', 10, 'amen', '1970-01-01');
+INSERT INTO `book` (`id`, `title`, `price`, `author`, `releaseDate`, `cover`) VALUES
+(13, 'amen', 10, 'amen', '1970-01-01', 'C:\\\\Users\\\\Amen\\\\eclipse-workspace\\\\bookstore\\\\src\\\\gui\\\\iconb.png'),
+(444, 'sdsd', 20, 'dsd', '2020-02-02', ''),
+(445, 'sasa', 12, 'sas', '2020-02-02', 'asdcdf'),
+(1122, 'aaa', 20, 'aaa', '2020-02-02', 'C:\\\\Users\\\\Amen\\\\eclipse-workspace\\\\bookstore\\\\src\\\\gui\\\\iconb.png'),
+(8184, 'ssxxs', 45, 'xscd', '2020-02-02', 'C:\\\\Users\\\\Amen\\\\eclipse-workspace\\\\bookstore\\\\src\\\\gui\\\\iconb.png'),
+(55415, 'aas', 205, 'asaa', '2020-05-05', 'C:\\\\Users\\\\Amen\\\\eclipse-workspace\\\\bookstore\\\\src\\\\gui\\\\iconb.png');
 
 --
 -- Index pour les tables déchargées

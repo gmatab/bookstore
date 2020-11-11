@@ -34,6 +34,7 @@ public class AddBooks extends JFrame {
 	private JTextField Price;
 	private JTextField RelDate;
 	private JTextField Id;
+	private JTextField cover;
 
 	/**
 	 * Launch the application.
@@ -56,7 +57,7 @@ public class AddBooks extends JFrame {
 	 */
 	public AddBooks() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 335);
+		setBounds(100, 100, 479, 359);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -89,7 +90,7 @@ public class AddBooks extends JFrame {
 		JLabel message = new JLabel("");
 		message.setFont(new Font("Sitka Banner", Font.BOLD | Font.ITALIC, 16));
 		message.setForeground(new Color(60, 179, 113));
-		message.setBounds(118, 271, 200, 14);
+		message.setBounds(118, 295, 200, 14);
 		contentPane.add(message);
 		
 		Price = new JTextField();
@@ -103,7 +104,7 @@ public class AddBooks extends JFrame {
 		contentPane.add(lblNewLabel_3);
 		
 		RelDate = new JTextField();
-		RelDate.setBounds(229, 196, 122, 20);
+		RelDate.setBounds(229, 195, 122, 20);
 		contentPane.add(RelDate);
 		RelDate.setColumns(10);
 		
@@ -115,7 +116,8 @@ public class AddBooks extends JFrame {
 				Date date=Date.valueOf(RelDate.getText());  
 
 				Book b =new Book(Integer.parseInt(Id.getText()),Title.getText(),Author.getText(),
-						Double.parseDouble(Price.getText()),date);
+						Double.parseDouble(Price.getText()),date,cover.getText());
+				
 				dao.addBook(b);
 				message.setText("Book added succecfully !");
 				Id.setText("");
@@ -123,6 +125,8 @@ public class AddBooks extends JFrame {
 				Author.setText("");
 				Price.setText("");
 				RelDate.setText("");
+				cover.setText("");
+
                 /*Grid gr;
 				try {
 					gr = new Grid();
@@ -140,7 +144,7 @@ public class AddBooks extends JFrame {
 			}
 		});
 
-		btnAdd.setBounds(229, 239, 89, 23);
+		btnAdd.setBounds(229, 262, 89, 23);
 		contentPane.add(btnAdd);
 		
 		JButton btnReset = new JButton("Reset");
@@ -151,9 +155,11 @@ public class AddBooks extends JFrame {
 				Author.setText("");
 				Price.setText("");
 				RelDate.setText("");
+				cover.setText("");
+
 			}
 		});
-		btnReset.setBounds(118, 239, 89, 23);
+		btnReset.setBounds(118, 262, 89, 23);
 		contentPane.add(btnReset);
 		
 		JLabel lblNewLabel_4 = new JLabel("ADD NEW BOOK");
@@ -170,6 +176,15 @@ public class AddBooks extends JFrame {
 		Id.setBounds(229, 36, 122, 20);
 		contentPane.add(Id);
 		Id.setColumns(10);
+		
+		JLabel lblNewLabel_6 = new JLabel("Cover's link");
+		lblNewLabel_6.setBounds(35, 230, 83, 14);
+		contentPane.add(lblNewLabel_6);
+		
+		cover = new JTextField();
+		cover.setBounds(229, 231, 122, 20);
+		contentPane.add(cover);
+		cover.setColumns(10);
 		
 		
 	}
