@@ -93,7 +93,7 @@ public class Grid extends JFrame {
 
 			}
 		});
-		btnNewButton.setBounds(67, 251, 153, 23);
+		btnNewButton.setBounds(164, 252, 126, 23);
 		contentPane.add(btnNewButton);
 		
 		btnNewButton_1 = new JButton("Update Selcted");
@@ -112,7 +112,7 @@ public class Grid extends JFrame {
 				lblNewLabel.setText("Successfully updated");
 			}
 		});
-		btnNewButton_1.setBounds(264, 251, 153, 23);
+		btnNewButton_1.setBounds(322, 252, 126, 23);
 		contentPane.add(btnNewButton_1);
 		
 		lblNewLabel = new JLabel("");
@@ -125,6 +125,22 @@ public class Grid extends JFrame {
 		lblNewLabel_1.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 13));
 		lblNewLabel_1.setBounds(10, 7, 387, 23);
 		contentPane.add(lblNewLabel_1);
+		
+		JButton btnNewButton_2 = new JButton("add commande");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int row = table_1.getSelectedRow();
+				int id = (int)table_1.getModel().getValueAt(row, 0);
+				String title = table_1.getModel().getValueAt(row, 1).toString();
+				double price = (double)table_1.getModel().getValueAt(row, 3);
+				//System.out.println(id);
+				AddCommande frame1 = new AddCommande(id,price,title);
+				frame1.setVisible(true);
+				//frame.setVisible(false);
+			}
+		});
+		btnNewButton_2.setBounds(20, 253, 108, 21);
+		contentPane.add(btnNewButton_2);
 		
 		
        
@@ -141,7 +157,7 @@ public class Grid extends JFrame {
 		int j=books.size();
 		Object[][] data = new Object[j][6];
 		int i=0;
-		ImageIcon icon =new ImageIcon("C:\\Users\\Amen\\eclipse-workspace\\bookstore\\src\\gui\\book.gif");
+		ImageIcon icon =new ImageIcon("C:\\Users\\mo\\Desktop\\vermeg\\bookstore\\src\\gui\\iconb.png");
 		for(Book bo : books)
 	    {
 			System.out.println(bo.getId());

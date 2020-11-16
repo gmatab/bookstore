@@ -42,7 +42,7 @@ public class GridCommande extends JFrame {
 		contentPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(82, 59, 550, 303);
+		scrollPane.setBounds(71, 68, 550, 303);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();

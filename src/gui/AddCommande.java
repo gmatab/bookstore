@@ -6,11 +6,18 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import dao.DaoBook;
+import dao.DaoCommande;
+import entities.Book;
+import entities.Commande;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.awt.event.ActionEvent;
 
 public class AddCommande extends JFrame {
@@ -21,6 +28,11 @@ public class AddCommande extends JFrame {
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
+	public int BookID;
+	public Double price;
+	public String title;
+	private JTextField idc;
+	private JTextField id;
 
 	/**
 	 * Launch the application.
@@ -29,7 +41,7 @@ public class AddCommande extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AddCommande frame = new AddCommande();
+					AddCommande frame = new AddCommande(0,0.0,"");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,7 +53,12 @@ public class AddCommande extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AddCommande() {
+	
+	
+	public AddCommande(int a,Double b,String c) {
+		this.BookID=a;
+		this.price=b;
+		this.title=c;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 651, 440);
 		contentPane = new JPanel();
@@ -104,6 +121,19 @@ public class AddCommande extends JFrame {
 		textField_4.setColumns(10);
 		
 		JButton btnNewButton = new JButton("add commande");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DaoCommande dao = new DaoCommande();
+				Date date=Date.valueOf("2222-11-11");  
+
+				Commande b =new Commande(Integer.parseInt(id.getText()),date,price,BookID,Integer.parseInt(idc.getText()));
+				
+				dao.addCommande(b);
+				//message.setText("Book added succecfully !");
+				
+				
+			}
+		});
 		btnNewButton.setBounds(315, 342, 103, 21);
 		panel.add(btnNewButton);
 		
@@ -114,5 +144,34 @@ public class AddCommande extends JFrame {
 		});
 		btnNewButton_1.setBounds(188, 342, 85, 21);
 		panel.add(btnNewButton_1);
+		
+		JLabel lblNewLabel_5 = new JLabel("");
+		lblNewLabel_5.setBounds(494, 86, 74, 13);
+		String t="";
+		System.out.println(BookID);
+		t="with ID  "+this.BookID;
+		lblNewLabel_5.setText(t);
+		panel.add(lblNewLabel_5);
+		
+		JLabel lblNewLabel_6 = new JLabel("IdClient:");
+		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNewLabel_6.setBounds(156, 303, 59, 13);
+		panel.add(lblNewLabel_6);
+		
+		idc = new JTextField();
+		idc.setBounds(244, 301, 139, 19);
+		panel.add(idc);
+		idc.setColumns(10);
+		
+		JLabel lblNewLabel_7 = new JLabel("id commande");
+		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNewLabel_7.setBounds(156, 23, 117, 13);
+		panel.add(lblNewLabel_7);
+		
+		id = new JTextField();
+		id.setBounds(244, 21, 139, 19);
+		panel.add(id);
+		id.setColumns(10);
+		
 	}
 }
