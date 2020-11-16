@@ -141,7 +141,7 @@ public class Grid extends JFrame {
 		int j=books.size();
 		Object[][] data = new Object[j][6];
 		int i=0;
-		ImageIcon icon =new ImageIcon("C:\\Users\\Amen\\eclipse-workspace\\bookstore\\src\\gui\\iconb.png");
+		ImageIcon icon =new ImageIcon("C:\\Users\\Amen\\eclipse-workspace\\bookstore\\src\\gui\\book.gif");
 		for(Book bo : books)
 	    {
 			System.out.println(bo.getId());
