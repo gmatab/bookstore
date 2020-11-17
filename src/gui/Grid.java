@@ -134,8 +134,15 @@ public class Grid extends JFrame {
 				String title = table_1.getModel().getValueAt(row, 1).toString();
 				double price = (double)table_1.getModel().getValueAt(row, 3);
 				//System.out.println(id);
-				AddCommande frame1 = new AddCommande(id,price,title);
-				frame1.setVisible(true);
+				AddCommande frame1;
+				try {
+					frame1 = new AddCommande(id,price,title);
+					frame1.setVisible(true);
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 				//frame.setVisible(false);
 			}
 		});

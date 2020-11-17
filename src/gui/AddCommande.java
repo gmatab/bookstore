@@ -18,9 +18,14 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.util.List;
 import java.awt.event.ActionEvent;
+
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import java.awt.Color;
+import javax.swing.JList;
 
 public class AddCommande extends JFrame {
 
@@ -54,10 +59,12 @@ public class AddCommande extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
 	 */
 	
 	
-	public AddCommande(int a,Double b,String c) {
+	public AddCommande(int a,Double b,String c) throws ClassNotFoundException, SQLException {
 		this.BookID=a;
 		this.price=b;
 		this.title=c;
@@ -126,16 +133,48 @@ public class AddCommande extends JFrame {
 		panel.add(textField_4);
 		textField_4.setColumns(10);
 		
-		
+		 DefaultListModel model = new DefaultListModel();
+		    //  model.add(i, items[i]);
+		JList list = new JList(model);
+		list.setBounds(399, 24, 129, 124);
+		panel.add(list);
+		DaoBook dbb=new DaoBook();
+		List <Book> p=dbb.listBook();
+		System.out.println(p);
+		int i=0;
+		for(Book ag:p) {
+			 model.add(i, ag.getTitle());
+			 i++;
+			//list.addElement(ag.getTitle());
+		}
 		JButton btnNewButton = new JButton("add commande");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int er=0;
 				DaoCommande dao = new DaoCommande();
+				int index = list.getSelectedIndex();
+				int[] items = list.getSelectedIndices();
+				System.out.println(items);
+				
 				Date date=Date.valueOf("2222-11-11");  
-
-				Commande b =new Commande(Integer.parseInt(id.getText()),date,price,BookID,Integer.parseInt(idc.getText()));
+				//for(Book ag:p) {
+					//if(ag.getTitle()==)
+					//{
+						// er=ag.getId();
+						//break;
+					//}
+				//}
+				for(int i=0;i<items.length;i++){
+				
+					
+				Book bkk=p.get(items[i]); 
+				er=bkk.getId();
+				System.out.println(er);
+				Commande b =new Commande(Integer.parseInt(id.getText()),date,price,er,Integer.parseInt(idc.getText()));
 				
 				dao.addCommande(b);
+				}
+				
 				message.setText("Book added succecfully !");
 				
 				
@@ -151,26 +190,9 @@ public class AddCommande extends JFrame {
 		});
 		btnNewButton_1.setBounds(188, 342, 85, 21);
 		panel.add(btnNewButton_1);
-		
-		JLabel bookid = new JLabel("");
-		bookid.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		bookid.setBounds(399, 86, 139, 13);
 		String t="";
 		System.out.println(BookID);
 		t="Book id: "+this.BookID;
-		bookid.setText(t);
-		panel.add(bookid);
-		JLabel titlel = new JLabel("");
-		titlel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		titlel.setBounds(399, 110, 161, 14);
-		titlel.setText("Book's title : "+this.title);
-		panel.add(titlel);
-		
-		JLabel pricel = new JLabel("");
-		pricel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		pricel.setBounds(399, 135, 161, 25);
-		pricel.setText("price : "+this.price);
-		panel.add(pricel);
 		
 		JLabel lblNewLabel_6 = new JLabel("IdClient:");
 		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -201,6 +223,13 @@ public class AddCommande extends JFrame {
 		lblNewLabel_9.setIcon(new ImageIcon(AddCommande.class.getResource("/gui/iconb.png")));
 		lblNewLabel_9.setBounds(397, 187, 64, 64);
 		panel.add(lblNewLabel_9);
+		
+		 //DefaultListModel model = new DefaultListModel();
+		    //  model.add(i, items[i]);
+		//JList list = new JList(model);
+		list.setBounds(399, 24, 129, 124);
+		panel.add(list);
+		
 		
 		
 		
