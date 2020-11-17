@@ -48,6 +48,8 @@ public class DaoCommande {
 
 			cm=new Commande(res.getInt("id"),res.getDate("datecommande"),res.getDouble("prix"),res.getInt("idclient"),res.getInt("idbook"));
 			commands.add(cm);
+			System.out.println(cm);
+
 		}
 		return commands;
 			

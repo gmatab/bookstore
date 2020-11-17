@@ -11,6 +11,7 @@ public class Book {
 	private Date releaseDate ;
 	private String cover;
 	
+	
 	public String getCover() {
 		return cover;
 	}
