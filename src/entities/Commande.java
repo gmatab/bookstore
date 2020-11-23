@@ -21,7 +21,12 @@ public class Commande {
 		this.idClient = idClient;
 		this.idBook = idBook;
 	}
-
+		public Commande( Date date_commande, Double prix,int idClient, int idBook) {
+			this.date_commande = date_commande;
+			this.prix = prix;
+			this.idClient = idClient;
+			this.idBook = idBook;
+		}
 		public int getIdBook() {
 		return idBook;
 	}

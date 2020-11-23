@@ -33,6 +33,13 @@ public class Book {
 		this.releaseDate = releaseDate;
 		this.cover = cover;
 	}
+	public Book(String title, String author, double price, Date releaseDate,String cover) {
+		this.title = title;
+		this.author = author;
+		this.price = price;
+		this.releaseDate = releaseDate;
+		this.cover = cover;
+	}
 	public int getId() {
 		return id;
 	}

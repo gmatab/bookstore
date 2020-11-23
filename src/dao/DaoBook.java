@@ -22,14 +22,13 @@ public class DaoBook {
 		Book b;
 		try {
 		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bookstore","root","");
-		query = "INSERT INTO book (id,title,author,price,releaseDate,cover) VALUES (?,?,?,?,?,?)";
+		query = "INSERT INTO book (title,author,price,releaseDate,cover) VALUES (?,?,?,?,?)";
 		st = conn.prepareStatement(query);
-		st.setInt(1,book.getId());
-		st.setString(2,book.getTitle());
-		st.setString(3,book.getAuthor());
-		st.setDouble(4,book.getPrice());
-		st.setDate(5,book.getReleaseDate());
-		st.setString(6,book.getCover());
+ 		st.setString(1,book.getTitle());
+		st.setString(2,book.getAuthor());
+		st.setDouble(3,book.getPrice());
+		st.setDate(4,book.getReleaseDate());
+		st.setString(5,book.getCover());
 		st.execute();
 		} catch (SQLException ex) { 
 			System.out .println("An error occurred while connecting MySQL databse");

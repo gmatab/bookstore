@@ -7,9 +7,17 @@ public class Client {
 	private String email;
 	private String tel;
 	private String adresse;
-	public Client(int id, String nom, String prenom, String email, String tel, String adresse) {
+public Client(int id, String nom, String prenom, String email, String tel, String adresse) {
 		
 		this.id = id;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.email = email;
+		this.tel = tel;
+		this.adresse = adresse;
+	}
+public Client(String nom, String prenom, String email, String tel, String adresse) {
+		
 		this.nom = nom;
 		this.prenom = prenom;
 		this.email = email;

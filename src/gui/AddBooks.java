@@ -115,12 +115,11 @@ public class AddBooks extends JFrame {
 				DaoBook dao = new DaoBook();
 				Date date=Date.valueOf(RelDate.getText());  
 
-				Book b =new Book(Integer.parseInt(Id.getText()),Title.getText(),Author.getText(),
+				Book b =new Book(Title.getText(),Author.getText(),
 						Double.parseDouble(Price.getText()),date,cover.getText());
 				
 				dao.addBook(b);
 				message.setText("Book added succecfully !");
-				Id.setText("");
 				Title.setText("");
 				Author.setText("");
 				Price.setText("");
@@ -150,7 +149,6 @@ public class AddBooks extends JFrame {
 		JButton btnReset = new JButton("Reset");
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Id.setText("");
 				Title.setText("");
 				Author.setText("");
 				Price.setText("");

@@ -170,7 +170,7 @@ public class AddCommande extends JFrame {
 				Book bkk=p.get(items[i]); 
 				er=bkk.getId();
 				System.out.println(er);
-				Commande b =new Commande(Integer.parseInt(id.getText()),date,price,er,Integer.parseInt(idc.getText()));
+				Commande b =new Commande(date,price,er,Integer.parseInt(idc.getText()));
 				
 				dao.addCommande(b);
 				}

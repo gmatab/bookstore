@@ -20,13 +20,12 @@ public class DaoCommande {
 		Book b;
 		try {
 		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bookstore","root","");
-		query = "INSERT INTO commande (id,datecommande,prix,idbook,idclient) VALUES (?,?,?,?,?)";
+		query = "INSERT INTO commande (datecommande,prix,idbook,idclient) VALUES (?,?,?,?)";
 		st = conn.prepareStatement(query);
-		st.setInt(1,comande.getId());
-		st.setDate(2,comande.getDate_commande());
-		st.setDouble(3,comande.getPrix());
-		st.setInt(4,comande.getIdBook());
-		st.setInt(5,comande.getIdClient());
+ 		st.setDate(1,comande.getDate_commande());
+		st.setDouble(2,comande.getPrix());
+		st.setInt(3,comande.getIdBook());
+		st.setInt(4,comande.getIdClient());
 		st.execute();
 		} catch (SQLException ex) { 
 			System.out .println("An error occurred while connecting MySQL databse");
