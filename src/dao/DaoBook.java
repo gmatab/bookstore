@@ -27,7 +27,7 @@ public class DaoBook {
  		st.setString(1,book.getTitle());
 		st.setString(2,book.getAuthor());
 		st.setDouble(3,book.getPrice());
-		st.setDate(4,book.getReleaseDate());
+		st.setString(4,book.getReleaseDate());
 		st.setString(5,book.getCover());
 		st.execute();
 		} catch (SQLException ex) { 
@@ -50,7 +50,7 @@ public class DaoBook {
 		st.setString(1,book.getTitle());
 		st.setString(2,book.getAuthor());
 		st.setDouble(3,book.getPrice());
-		st.setDate(4,book.getReleaseDate());
+		st.setString(4,book.getReleaseDate());
 		st.setInt(5,book.getId());
 
 		st.execute();
@@ -95,7 +95,7 @@ public class DaoBook {
 		res=st.executeQuery();
 		while(res.next()) {
 
-			b=new Book(res.getInt("id"),res.getString("title"),res.getString("author"),res.getDouble("price"),res.getDate("releaseDate"),res.getString("cover"));
+			b=new Book(res.getInt("id"),res.getString("title"),res.getString("author"),res.getDouble("price"),res.getString("releaseDate"),res.getString("cover"));
 			books.add(b);
 		}
 		return books;

@@ -1,5 +1,7 @@
 package dao;
 
+import java.sql.Date;
+///import java.util.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,7 +24,7 @@ public class DaoCommande {
 		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bookstore","root","");
 		query = "INSERT INTO commande (datecommande,prix,idbook,idclient) VALUES (?,?,?,?)";
 		st = conn.prepareStatement(query);
- 		st.setDate(1,comande.getDate_commande());
+ 		st.setDate(1, comande.getDate_commande());
 		st.setDouble(2,comande.getPrix());
 		st.setInt(3,comande.getIdBook());
 		st.setInt(4,comande.getIdClient());

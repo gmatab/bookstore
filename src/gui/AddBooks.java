@@ -6,35 +6,39 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import java.awt.Color;
+import java.awt.Button;
+import java.awt.SystemColor;
+import javax.swing.JTextField;
+import javax.swing.JSeparator;
+import javax.swing.JLabel;
+import javax.swing.JPasswordField;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+
+import com.toedter.calendar.JDateChooser;
 
 import dao.DaoBook;
 import entities.Book;
 
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JSplitPane;
-import javax.swing.JButton;
-import java.awt.Panel;
-import java.awt.Window;
-import java.awt.Button;
-import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.sql.Date;
-import java.sql.SQLException;
 import java.awt.event.ActionEvent;
-import java.awt.Color;
 
 public class AddBooks extends JFrame {
 
 	private JPanel contentPane;
+	private JTextField file;
 	private JTextField Title;
+	
+	int xx,xy;
 	private JTextField Author;
-	private JTextField Price;
-	private JTextField RelDate;
-	private JTextField Id;
-	private JTextField cover;
+	private JTextField price;
 
 	/**
 	 * Launch the application.
@@ -44,6 +48,7 @@ public class AddBooks extends JFrame {
 			public void run() {
 				try {
 					AddBooks frame = new AddBooks();
+					frame.setUndecorated(true);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,139 +56,199 @@ public class AddBooks extends JFrame {
 			}
 		});
 	}
+	
+	
+	// going to borrow code from a gist to move frame.
+	
 
 	/**
 	 * Create the frame.
 	 */
 	public AddBooks() {
+		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 479, 359);
+		setBounds(100, 100, 729, 476);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Title");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		lblNewLabel.setBounds(35, 77, 46, 14);
-		contentPane.add(lblNewLabel);
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.DARK_GRAY);
+		panel.setBounds(0, 0, 346, 490);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Project : Build a Bookstore");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblNewLabel.setForeground(new Color(240, 248, 255));
+		lblNewLabel.setBounds(0, 229, 346, 27);
+		panel.add(lblNewLabel);
+		
+		JLabel label = new JLabel("");
+		
+		label.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+				 xx = e.getX();
+			     xy = e.getY();
+			}
+		});
+		label.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent arg0) {
+				
+				int x = arg0.getXOnScreen();
+	            int y = arg0.getYOnScreen();
+	            AddBooks.this.setLocation(x - xx, y - xy);  
+			}
+		});
+	
+		
+		JLabel lblWeGotYou = new JLabel(".... Vermeg-Sesame ....");
+		lblWeGotYou.setHorizontalAlignment(SwingConstants.CENTER);
+		lblWeGotYou.setForeground(new Color(240, 248, 255));
+		lblWeGotYou.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblWeGotYou.setBounds(0, 409, 346, 27);
+		panel.add(lblWeGotYou);
+		
+		JLabel lblNewLabel_1 = new JLabel("realized by :");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setForeground(Color.WHITE);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel_1.setBounds(0, 267, 346, 27);
+		panel.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Amen Allah Tbini - Ghrissi Mohamed - Ben Alaya Ahmed");
+		lblNewLabel_2.setForeground(Color.WHITE);
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2.setBounds(0, 290, 346, 33);
+		panel.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("Framed by :");
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel_3.setForeground(Color.WHITE);
+		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3.setBounds(0, 331, 346, 33);
+		panel.add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_4 = new JLabel("Mohamed Amine Mezghich");
+		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_4.setForeground(Color.WHITE);
+		lblNewLabel_4.setBounds(0, 364, 346, 20);
+		panel.add(lblNewLabel_4);
+		
+		JLabel lblNewLabel_5 = new JLabel("");
+		lblNewLabel_5.setToolTipText("");
+		lblNewLabel_5.setIcon(new ImageIcon(Home.class.getResource("/gui/image.jpg")));
+		lblNewLabel_5.setBounds(0, 0, 346, 219);
+		panel.add(lblNewLabel_5);
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBounds(395, 264, 283, 27);
+		contentPane.add(dateChooser);
+		Button button = new Button("RESET");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Title.setText("");
+				Author.setText("");
+				price.setText("");
+				dateChooser.setDate(null);
+				file.setText("");
+
+			}
+		});
+		button.setForeground(Color.WHITE);
+		button.setBackground(new Color(241, 57, 83));
+		button.setBounds(383, 388, 143, 41);
+		contentPane.add(button);
+		
+		
+		
+		file = new JTextField();
+		file.setBounds(393, 324, 283, 27);
+		contentPane.add(file);
+		file.setColumns(10);
+		
+		
+		
+		JLabel lblEmail = new JLabel("TITLE");
+		lblEmail.setBounds(393, 38, 54, 14);
+		contentPane.add(lblEmail);
 		
 		Title = new JTextField();
-		Title.setBounds(229, 75, 122, 20);
-		contentPane.add(Title);
 		Title.setColumns(10);
+		Title.setBounds(395, 62, 283, 27);
+		contentPane.add(Title);
 		
-		JLabel lblNewLabel_1 = new JLabel("Author");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		lblNewLabel_1.setBounds(35, 114, 58, 14);
-		contentPane.add(lblNewLabel_1);
+		JLabel lblPassword = new JLabel("AUTHOR");
+		lblPassword.setBounds(395, 108, 96, 14);
+		contentPane.add(lblPassword);
 		
-		Author = new JTextField();
-		Author.setBounds(229, 112, 122, 20);
-		contentPane.add(Author);
-		Author.setColumns(10);
+		JLabel lblRepeatPassword = new JLabel("PRICE");
+		lblRepeatPassword.setBounds(395, 179, 133, 14);
+		contentPane.add(lblRepeatPassword);
 		
-		JLabel lblNewLabel_2 = new JLabel("Price");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		lblNewLabel_2.setBounds(35, 156, 46, 14);
-		contentPane.add(lblNewLabel_2);
-		JLabel message = new JLabel("");
-		message.setFont(new Font("Sitka Banner", Font.BOLD | Font.ITALIC, 16));
-		message.setForeground(new Color(60, 179, 113));
-		message.setBounds(118, 295, 200, 14);
-		contentPane.add(message);
-		
-		Price = new JTextField();
-		Price.setBounds(229, 154, 122, 20);
-		contentPane.add(Price);
-		Price.setColumns(10);
-		
-		JLabel lblNewLabel_3 = new JLabel("Release Date(AAAA-MM-JJ)");
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		lblNewLabel_3.setBounds(35, 199, 184, 14);
-		contentPane.add(lblNewLabel_3);
-		
-		RelDate = new JTextField();
-		RelDate.setBounds(229, 195, 122, 20);
-		contentPane.add(RelDate);
-		RelDate.setColumns(10);
-		
-		JButton btnAdd = new JButton("Add Book");
-		btnAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		JLabel lbl_close = new JLabel("X");
+		lbl_close.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
 				
+				System.exit(0);
+			}
+		});
+		lbl_close.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_close.setForeground(new Color(241, 57, 83));
+		lbl_close.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lbl_close.setBounds(691, 0, 37, 27);
+		contentPane.add(lbl_close);
+		
+		JLabel lblReleaseDateaaaammjj = new JLabel("RELEASE DATE (AAAA-MM-JJ)");
+		lblReleaseDateaaaammjj.setBounds(392, 240, 190, 14);
+		contentPane.add(lblReleaseDateaaaammjj);
+		
+		
+		
+		Button button_1 = new Button("Add Book");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				///
 				DaoBook dao = new DaoBook();
-				Date date=Date.valueOf(RelDate.getText());  
-
+				//Date date=Date.valueOf(RelDate.getText());  
+				SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+		        // sdf.format(dateChooser.getDate());
 				Book b =new Book(Title.getText(),Author.getText(),
-						Double.parseDouble(Price.getText()),date,cover.getText());
+						Double.parseDouble(price.getText()),sdf.format(dateChooser.getDate()),file.getText());
 				
 				dao.addBook(b);
-				message.setText("Book added succecfully !");
+				//message.setText("Book added succecfully !");
 				Title.setText("");
 				Author.setText("");
-				Price.setText("");
-				RelDate.setText("");
-				cover.setText("");
-
-                /*Grid gr;
-				try {
-					gr = new Grid();
-	                gr.setVisible(true);
- 
- 
-
-
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}*/
-
-
+				price.setText("");
+				dateChooser.setDate(null);
+				file.setText("");
 			}
 		});
-
-		btnAdd.setBounds(229, 262, 89, 23);
-		contentPane.add(btnAdd);
+		button_1.setForeground(Color.WHITE);
+		button_1.setBackground(new Color(34, 139, 34));
+		button_1.setBounds(535, 388, 143, 41);
+		contentPane.add(button_1);
 		
-		JButton btnReset = new JButton("Reset");
-		btnReset.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Title.setText("");
-				Author.setText("");
-				Price.setText("");
-				RelDate.setText("");
-				cover.setText("");
-
-			}
-		});
-		btnReset.setBounds(118, 262, 89, 23);
-		contentPane.add(btnReset);
-		
-		JLabel lblNewLabel_4 = new JLabel("ADD NEW BOOK");
-		lblNewLabel_4.setFont(new Font("Segoe UI Semibold", Font.BOLD | Font.ITALIC, 14));
-		lblNewLabel_4.setBounds(158, 11, 161, 14);
-		contentPane.add(lblNewLabel_4);
-		
-		JLabel lblNewLabel_5 = new JLabel("Id");
-		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		lblNewLabel_5.setBounds(35, 38, 46, 14);
-		contentPane.add(lblNewLabel_5);
-		
-		Id = new JTextField();
-		Id.setBounds(229, 36, 122, 20);
-		contentPane.add(Id);
-		Id.setColumns(10);
-		
-		JLabel lblNewLabel_6 = new JLabel("Cover's link");
-		lblNewLabel_6.setBounds(35, 230, 83, 14);
+		JLabel lblNewLabel_6 = new JLabel("file");
+		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblNewLabel_6.setBounds(395, 301, 114, 13);
 		contentPane.add(lblNewLabel_6);
 		
-		cover = new JTextField();
-		cover.setBounds(229, 231, 122, 20);
-		contentPane.add(cover);
-		cover.setColumns(10);
+		Author = new JTextField();
+		Author.setColumns(10);
+		Author.setBounds(393, 142, 283, 27);
+		contentPane.add(Author);
 		
-		
+		price = new JTextField();
+		price.setColumns(10);
+		price.setBounds(395, 203, 283, 27);
+		contentPane.add(price);
 	}
 }

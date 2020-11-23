@@ -8,7 +8,7 @@ public class Book {
 	private String title ;
 	private String author ;
 	private double price ;
-	private Date releaseDate ;
+	private String releaseDate ;
 	private String cover;
 	
 	
@@ -18,14 +18,14 @@ public class Book {
 	public void setCover(String cover) {
 		this.cover = cover;
 	}
-	public Book(int id, String title, String author, double price, Date releaseDate) {
+	public Book(int id, String title, String author, double price, String releaseDate) {
 		this.id = id;
 		this.title = title;
 		this.author = author;
 		this.price = price;
 		this.releaseDate = releaseDate;
 	}
-	public Book(int id, String title, String author, double price, Date releaseDate,String cover) {
+	public Book(int id, String title, String author, double price, String releaseDate,String cover) {
 		this.id = id;
 		this.title = title;
 		this.author = author;
@@ -33,7 +33,7 @@ public class Book {
 		this.releaseDate = releaseDate;
 		this.cover = cover;
 	}
-	public Book(String title, String author, double price, Date releaseDate,String cover) {
+	public Book(String title, String author, double price, String releaseDate,String cover) {
 		this.title = title;
 		this.author = author;
 		this.price = price;
@@ -64,10 +64,10 @@ public class Book {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	public Date getReleaseDate() {
+	public String getReleaseDate() {
 		return releaseDate;
 	}
-	public void setReleaseDate(Date releaseDate) {
+	public void setReleaseDate(String releaseDate) {
 		this.releaseDate = releaseDate;
 	}
 	@Override

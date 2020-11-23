@@ -2,42 +2,59 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-
+import java.util.Calendar;
+import java.sql.Date;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import dao.DaoBook;
-import entities.Book;
-
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
+import java.awt.Color;
+import java.awt.Button;
+import java.awt.SystemColor;
+import javax.swing.JTextField;
+import javax.swing.JSeparator;
+import javax.swing.JLabel;
+import javax.swing.JPasswordField;
+import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+//import java.sql.Date;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import com.toedter.calendar.JDateChooser;
+
+import dao.DaoBook;
+import dao.DaoCommande;
+import entities.Book;
+import entities.Commande;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.sql.Date;
-import javax.swing.JLabel;
-import java.awt.Color;
-import java.awt.Font;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import javax.swing.JList;
 
 public class Grid extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table_1;
-	private JButton btnNewButton;
-	private JButton btnNewButton_1;
-	private JLabel lblNewLabel;
+	
+	int xx,xy;
+	public int BookID;
+	public Double price;
+	public String title;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -46,7 +63,8 @@ public class Grid extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Grid frame = new Grid();
+					Home frame = new Home(0,0.0,"");
+					frame.setUndecorated(true);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -54,85 +72,131 @@ public class Grid extends JFrame {
 			}
 		});
 	}
+	
+	
+	// going to borrow code from a gist to move frame.
+	
 
 	/**
 	 * Create the frame.
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 
 	 */
-	public Grid() throws SQLException, ClassNotFoundException {
-
-				setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 486, 336);
+	public Grid(int a,Double b,String c) throws ClassNotFoundException, SQLException {
+		this.BookID=a;
+		this.price=b;
+		this.title=c;
+		
+		setBackground(Color.WHITE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 729, 476);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 32, 450, 210);
-		contentPane.add(scrollPane);
-		affgrid();
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.DARK_GRAY);
+		panel.setBounds(0, 0, 261, 439);
+		contentPane.add(panel);
+		panel.setLayout(null);
 		
-
-		scrollPane.setViewportView(table_1);
+		JLabel lblNewLabel = new JLabel("Project : Build a Bookstore");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblNewLabel.setForeground(new Color(240, 248, 255));
+		lblNewLabel.setBounds(-17, 229, 276, 27);
+		panel.add(lblNewLabel);
 		
-		btnNewButton = new JButton("delete selected");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0)   {
-						int row = table_1.getSelectedRow();
-						int id = (int)table_1.getModel().getValueAt(row, 0);
-						DaoBook dao = new DaoBook();
-						dao.deleteBook(id);
-						
-						DefaultTableModel tableModel = (DefaultTableModel) table_1.getModel();
-						tableModel.removeRow(row);
-						lblNewLabel.setText("Successfully deleted");
-
-					 
-
+		JLabel label = new JLabel("");
+		
+		label.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+				 xx = e.getX();
+			     xy = e.getY();
 			}
 		});
-		btnNewButton.setBounds(164, 252, 126, 23);
-		contentPane.add(btnNewButton);
+		label.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent arg0) {
+				
+				int x = arg0.getXOnScreen();
+	            int y = arg0.getYOnScreen();
+	            Grid.this.setLocation(x - xx, y - xy);  
+			}
+		});
+	
 		
-		btnNewButton_1 = new JButton("Update Selcted");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int row = table_1.getSelectedRow();
-				String title = table_1.getModel().getValueAt(row, 1).toString();
-				String author = table_1.getModel().getValueAt(row, 2).toString();
-				String date1 = table_1.getModel().getValueAt(row, 4).toString();
-				int id = (int)table_1.getModel().getValueAt(row, 0);
-				double price = (double)table_1.getModel().getValueAt(row, 3);
+		JLabel lblWeGotYou = new JLabel(".... Vermeg-Sesame ....");
+		lblWeGotYou.setHorizontalAlignment(SwingConstants.CENTER);
+		lblWeGotYou.setForeground(new Color(240, 248, 255));
+		lblWeGotYou.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblWeGotYou.setBounds(-46, 412, 346, 27);
+		panel.add(lblWeGotYou);
+		
+		JLabel lblNewLabel_5 = new JLabel("");
+		lblNewLabel_5.setToolTipText("");
+		lblNewLabel_5.setIcon(new ImageIcon(Home.class.getResource("/gui/image.jpg")));
+		lblNewLabel_5.setBounds(0, 0, 259, 219);
+		panel.add(lblNewLabel_5);
+		DefaultListModel model = new DefaultListModel();
+		DaoBook dbb=new DaoBook();
+		List <Book> p=dbb.listBook();
+		System.out.println(p);
+		int i=0;
+		for(Book ag:p) {
+			 model.add(i, ag.getTitle());
+			 i++;
+			//list.addElement(ag.getTitle());
+		}
+		Button button = new Button("update selected");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int row = table.getSelectedRow();
+				String title = table.getModel().getValueAt(row, 1).toString();
+				String author = table.getModel().getValueAt(row, 2).toString();
+				String date1 = table.getModel().getValueAt(row, 4).toString();
+				int id = (int)table.getModel().getValueAt(row, 0);
+				double price = (double)table.getModel().getValueAt(row, 3);
 				DaoBook dao = new DaoBook();
 				Date date=Date.valueOf(date1);  
-				Book b =new Book(id,title,author,price,date);
+				Book b =new Book(id,title,author,price,date1);
 				dao.updateBook(b);
 				lblNewLabel.setText("Successfully updated");
+
 			}
 		});
-		btnNewButton_1.setBounds(322, 252, 126, 23);
-		contentPane.add(btnNewButton_1);
+		button.setForeground(Color.WHITE);
+		button.setBackground(new Color(34, 139, 34));
+		button.setBounds(284, 388, 126, 41);
+		contentPane.add(button);
 		
-		lblNewLabel = new JLabel("");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		lblNewLabel.setForeground(new Color(60, 179, 113));
-		lblNewLabel.setBounds(120, 279, 277, 14);
-		contentPane.add(lblNewLabel);
+		JLabel lbl_close = new JLabel("X");
+		lbl_close.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				System.exit(0);
+			}
+		});
+		lbl_close.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_close.setForeground(new Color(241, 57, 83));
+		lbl_close.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lbl_close.setBounds(691, 0, 37, 27);
+		contentPane.add(lbl_close);
 		
-		JLabel lblNewLabel_1 = new JLabel("List of Books");
-		lblNewLabel_1.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 13));
-		lblNewLabel_1.setBounds(10, 7, 387, 23);
-		contentPane.add(lblNewLabel_1);
 		
-		JButton btnNewButton_2 = new JButton("add commande");
-		btnNewButton_2.addActionListener(new ActionListener() {
+		
+		Button button_1 = new Button("Add commande");
+		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int row = table_1.getSelectedRow();
-				int id = (int)table_1.getModel().getValueAt(row, 0);
-				String title = table_1.getModel().getValueAt(row, 1).toString();
-				double price = (double)table_1.getModel().getValueAt(row, 3);
+				int row = table.getSelectedRow();
+				int id = (int)table.getModel().getValueAt(row, 0);
+				String title = table.getModel().getValueAt(row, 1).toString();
+				double price = (double)table.getModel().getValueAt(row, 3);
 				//System.out.println(id);
 				AddCommande frame1;
 				try {
@@ -144,18 +208,45 @@ public class Grid extends JFrame {
 				}
 				
 				//frame.setVisible(false);
+				
 			}
 		});
-		btnNewButton_2.setBounds(20, 253, 108, 21);
-		contentPane.add(btnNewButton_2);
+		button_1.setForeground(Color.WHITE);
+		button_1.setBackground(new Color(34, 139, 34));
+		button_1.setBounds(423, 388, 128, 41);
+		contentPane.add(button_1);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(284, 64, 396, 296);
+		affgrid();
+		contentPane.add(scrollPane);
 		
-       
-
-   
-
+		//table = new JTable();
+		scrollPane.setViewportView(table);
+		
+		JLabel lblNewLabel_1 = new JLabel("List of Books");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNewLabel_1.setBounds(429, 28, 99, 13);
+		contentPane.add(lblNewLabel_1);
+		
+		Button button_1_1 = new Button("delete selected");
+		button_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int row = table.getSelectedRow();
+				int id = (int)table.getModel().getValueAt(row, 0);
+				DaoBook dao = new DaoBook();
+				dao.deleteBook(id);
+				
+				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+				tableModel.removeRow(row);
+			}
+		});
+		button_1_1.setForeground(Color.WHITE);
+		button_1_1.setBackground(new Color(255, 0, 0));
+		button_1_1.setBounds(557, 388, 128, 41);
+		contentPane.add(button_1_1);
 	}
-	public void affgrid () throws SQLException, ClassNotFoundException {
+public void affgrid () throws SQLException, ClassNotFoundException {
 		
 		
 		DaoBook dao= new DaoBook();
@@ -164,7 +255,7 @@ public class Grid extends JFrame {
 		int j=books.size();
 		Object[][] data = new Object[j][6];
 		int i=0;
-		ImageIcon icon =new ImageIcon("C:\\Users\\Amen\\eclipse-workspace\\bookstore\\src\\gui\\iconb.png");
+		ImageIcon icon =new ImageIcon("C:\\Users\\mo\\Desktop\\capp\\ang.png");
 		for(Book bo : books)
 	    {
 			System.out.println(bo.getId());
@@ -181,7 +272,7 @@ public class Grid extends JFrame {
                 "Id", "Title", "Author", "Price", "ReleaseDate","cover"
             };
         DefaultTableModel model = new DefaultTableModel(data, columns);
-        table_1 = new JTable(model) {
+        table = new JTable(model) {
         	public Class getColumnClass(int column) {
                 return (column == 5) ? Icon.class : Object.class;
               }
@@ -193,12 +284,12 @@ public class Grid extends JFrame {
 		};
 
 		
-		  table_1.setRowHeight(icon.getIconHeight());
-		    TableColumnModel columnModel = table_1.getColumnModel();
+		 table.setRowHeight(icon.getIconHeight());
+		    TableColumnModel columnModel = table.getColumnModel();
 		   columnModel.getColumn(5).setPreferredWidth( icon.getIconWidth());
 		
-        table_1.setFont(new Font("Tahoma", Font.ITALIC, 12));;
-		table_1.setAutoCreateColumnsFromModel(true);
+        table.setFont(new Font("Tahoma", Font.ITALIC, 12));;
+		table.setAutoCreateColumnsFromModel(true);
 
 	}
 }

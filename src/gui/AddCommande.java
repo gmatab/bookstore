@@ -2,44 +2,58 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
+import java.util.Calendar;
+import java.sql.Date;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import java.awt.Color;
+import java.awt.Button;
+import java.awt.SystemColor;
+import javax.swing.JTextField;
+import javax.swing.JSeparator;
+import javax.swing.JLabel;
+import javax.swing.JPasswordField;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+//import java.sql.Date;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import com.toedter.calendar.JDateChooser;
 
 import dao.DaoBook;
 import dao.DaoCommande;
 import entities.Book;
 import entities.Commande;
 
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.sql.Date;
-import java.sql.SQLException;
-import java.util.List;
 import java.awt.event.ActionEvent;
-
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import java.awt.Color;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
 import javax.swing.JList;
 
 public class AddCommande extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField adresse;
+	private JTextField prenom;
+	
+	int xx,xy;
 	public int BookID;
 	public Double price;
 	public String title;
-	private JTextField idc;
-	private JTextField id;
+	private JTextField nom;
+	private JTextField email;
+	private JTextField tel;
 
 	/**
 	 * Launch the application.
@@ -48,7 +62,8 @@ public class AddCommande extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AddCommande frame = new AddCommande(0,0.0,"");
+					Home frame = new Home(0,0.0,"");
+					frame.setUndecorated(true);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -56,87 +71,80 @@ public class AddCommande extends JFrame {
 			}
 		});
 	}
+	
+	
+	// going to borrow code from a gist to move frame.
+	
 
 	/**
 	 * Create the frame.
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 
 	 */
-	
-	
 	public AddCommande(int a,Double b,String c) throws ClassNotFoundException, SQLException {
 		this.BookID=a;
 		this.price=b;
 		this.title=c;
+		
+		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 651, 440);
+		setBounds(100, 100, 729, 476);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		contentPane.add(panel, BorderLayout.CENTER);
+		panel.setBackground(Color.DARK_GRAY);
+		panel.setBounds(0, 0, 346, 439);
+		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Nom:");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel.setBounds(41, 55, 45, 13);
+		JLabel lblNewLabel = new JLabel("Project : Build a Bookstore");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblNewLabel.setForeground(new Color(240, 248, 255));
+		lblNewLabel.setBounds(0, 229, 346, 27);
 		panel.add(lblNewLabel);
-		JLabel message = new JLabel("");
-		message.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		message.setForeground(new Color(51, 204, 153));
-		message.setBounds(149, 366, 302, 25);
-		panel.add(message);
-		textField = new JTextField();
-		textField.setBounds(111, 52, 139, 19);
-		panel.add(textField);
-		textField.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("prenom:");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_1.setBounds(41, 104, 59, 13);
-		panel.add(lblNewLabel_1);
+		JLabel label = new JLabel("");
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(111, 101, 139, 19);
-		panel.add(textField_1);
-		textField_1.setColumns(10);
+		label.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+				 xx = e.getX();
+			     xy = e.getY();
+			}
+		});
+		label.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent arg0) {
+				
+				int x = arg0.getXOnScreen();
+	            int y = arg0.getYOnScreen();
+	            AddCommande.this.setLocation(x - xx, y - xy);  
+			}
+		});
+	
 		
-		JLabel lblNewLabel_2 = new JLabel("email:");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_2.setBounds(41, 160, 45, 13);
-		panel.add(lblNewLabel_2);
+		JLabel lblWeGotYou = new JLabel(".... Vermeg-Sesame ....");
+		lblWeGotYou.setHorizontalAlignment(SwingConstants.CENTER);
+		lblWeGotYou.setForeground(new Color(240, 248, 255));
+		lblWeGotYou.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblWeGotYou.setBounds(0, 409, 346, 27);
+		panel.add(lblWeGotYou);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(111, 157, 139, 19);
-		panel.add(textField_2);
-		textField_2.setColumns(10);
-		
-		JLabel lblNewLabel_3 = new JLabel("adresse:");
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_3.setBounds(41, 262, 59, 13);
-		panel.add(lblNewLabel_3);
-		
-		textField_3 = new JTextField();
-		textField_3.setBounds(111, 208, 139, 19);
-		panel.add(textField_3);
-		textField_3.setColumns(10);
-		
-		JLabel lblNewLabel_4 = new JLabel("tel:");
-		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_4.setBounds(41, 211, 45, 13);
-		panel.add(lblNewLabel_4);
-		
-		textField_4 = new JTextField();
-		textField_4.setBounds(111, 259, 139, 19);
-		panel.add(textField_4);
-		textField_4.setColumns(10);
-		
-		 DefaultListModel model = new DefaultListModel();
-		    //  model.add(i, items[i]);
+		JLabel lblNewLabel_5 = new JLabel("");
+		lblNewLabel_5.setToolTipText("");
+		lblNewLabel_5.setIcon(new ImageIcon(Home.class.getResource("/gui/image.jpg")));
+		lblNewLabel_5.setBounds(0, 0, 346, 219);
+		panel.add(lblNewLabel_5);
+		DefaultListModel model = new DefaultListModel();
 		JList list = new JList(model);
-		list.setBounds(399, 24, 129, 124);
+		list.setBounds(50, 295, 247, 82);
+		
 		panel.add(list);
 		DaoBook dbb=new DaoBook();
 		List <Book> p=dbb.listBook();
@@ -147,16 +155,80 @@ public class AddCommande extends JFrame {
 			 i++;
 			//list.addElement(ag.getTitle());
 		}
-		JButton btnNewButton = new JButton("add commande");
-		btnNewButton.addActionListener(new ActionListener() {
+		Button button = new Button("RESET");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				prenom.setText("");
+				nom.setText("");
+				email.setText("");
+				tel.setText("");
+				//dateChooser.setDate(null);
+				adresse.setText("");
+
+			}
+		});
+		button.setForeground(Color.WHITE);
+		button.setBackground(new Color(241, 57, 83));
+		button.setBounds(383, 388, 143, 41);
+		contentPane.add(button);
+		
+		
+		
+		adresse = new JTextField();
+		adresse.setBounds(393, 324, 283, 27);
+		contentPane.add(adresse);
+		adresse.setColumns(10);
+		
+		
+		
+		JLabel lblEmail = new JLabel("Prenom");
+		lblEmail.setBounds(393, 38, 54, 14);
+		contentPane.add(lblEmail);
+		
+		prenom = new JTextField();
+		prenom.setColumns(10);
+		prenom.setBounds(395, 62, 283, 27);
+		contentPane.add(prenom);
+		
+		JLabel lblPassword = new JLabel("Nom");
+		lblPassword.setBounds(395, 108, 96, 14);
+		contentPane.add(lblPassword);
+		
+		JLabel lblRepeatPassword = new JLabel("email");
+		lblRepeatPassword.setBounds(395, 179, 133, 14);
+		contentPane.add(lblRepeatPassword);
+		
+		JLabel lbl_close = new JLabel("X");
+		lbl_close.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				System.exit(0);
+			}
+		});
+		lbl_close.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_close.setForeground(new Color(241, 57, 83));
+		lbl_close.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lbl_close.setBounds(691, 0, 37, 27);
+		contentPane.add(lbl_close);
+		
+		JLabel lblReleaseDateaaaammjj = new JLabel("tel");
+		lblReleaseDateaaaammjj.setBounds(392, 240, 190, 14);
+		contentPane.add(lblReleaseDateaaaammjj);
+		
+		
+		
+		Button button_1 = new Button("Add commande");
+		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int er=0;
 				DaoCommande dao = new DaoCommande();
 				int index = list.getSelectedIndex();
 				int[] items = list.getSelectedIndices();
 				System.out.println(items);
-				
-				Date date=Date.valueOf("2222-11-11");  
+				//DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+				  // LocalDateTime now = LocalDateTime.now();  
+				//Date date=Date.valueOf("2222-11-11");  
 				//for(Book ag:p) {
 					//if(ag.getTitle()==)
 					//{
@@ -164,76 +236,52 @@ public class AddCommande extends JFrame {
 						//break;
 					//}
 				//}
+				//java.util.Date date= java.util.Calendar.getInstance().getTime();
+				
+				//SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+				//java.util.Date date = new java.util.Date();
+				//Calendar calendar = Calendar.getInstance();
+				//java.util.Date currentTime = calendar.getTime(); 
+				//Long time = currentTime.getTime();
+				Date date=Date.valueOf("2222-11-11"); 
 				for(int i=0;i<items.length;i++){
 				
 					
 				Book bkk=p.get(items[i]); 
 				er=bkk.getId();
 				System.out.println(er);
-				Commande b =new Commande(date,price,er,Integer.parseInt(idc.getText()));
-				
+				Commande b =new Commande(date,price,er,2);
+				//Client cl= new Client();
 				dao.addCommande(b);
 				}
 				
-				message.setText("Book added succecfully !");
-				
+				//message.setText("Book added succecfully !");
 				
 			}
 		});
-		btnNewButton.setBounds(315, 342, 103, 21);
-		panel.add(btnNewButton);
+		button_1.setForeground(Color.WHITE);
+		button_1.setBackground(new Color(34, 139, 34));
+		button_1.setBounds(535, 388, 143, 41);
+		contentPane.add(button_1);
 		
-		JButton btnNewButton_1 = new JButton("reset");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton_1.setBounds(188, 342, 85, 21);
-		panel.add(btnNewButton_1);
-		String t="";
-		System.out.println(BookID);
-		t="Book id: "+this.BookID;
+		JLabel lblNewLabel_6 = new JLabel("adresse");
+		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblNewLabel_6.setBounds(395, 301, 114, 13);
+		contentPane.add(lblNewLabel_6);
 		
-		JLabel lblNewLabel_6 = new JLabel("IdClient:");
-		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_6.setBounds(41, 301, 59, 13);
-		panel.add(lblNewLabel_6);
+		nom = new JTextField();
+		nom.setColumns(10);
+		nom.setBounds(393, 142, 283, 27);
+		contentPane.add(nom);
 		
-		idc = new JTextField();
-		idc.setBounds(111, 298, 139, 19);
-		panel.add(idc);
-		idc.setColumns(10);
+		email = new JTextField();
+		email.setColumns(10);
+		email.setBounds(395, 203, 283, 27);
+		contentPane.add(email);
 		
-		JLabel lblNewLabel_7 = new JLabel("id commande");
-		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_7.setBounds(399, 262, 117, 13);
-		panel.add(lblNewLabel_7);
-		
-		id = new JTextField();
-		id.setBounds(399, 298, 139, 19);
-		panel.add(id);
-		id.setColumns(10);
-		
-		JLabel lblNewLabel_8 = new JLabel("Information client :");
-		lblNewLabel_8.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
-		lblNewLabel_8.setBounds(28, 11, 153, 14);
-		panel.add(lblNewLabel_8);
-		
-		JLabel lblNewLabel_9 = new JLabel("");
-		lblNewLabel_9.setIcon(new ImageIcon(AddCommande.class.getResource("/gui/iconb.png")));
-		lblNewLabel_9.setBounds(397, 187, 64, 64);
-		panel.add(lblNewLabel_9);
-		
-		 //DefaultListModel model = new DefaultListModel();
-		    //  model.add(i, items[i]);
-		//JList list = new JList(model);
-		list.setBounds(399, 24, 129, 124);
-		panel.add(list);
-		
-		
-		
-		
-	
-		
+		tel = new JTextField();
+		tel.setColumns(10);
+		tel.setBounds(393, 264, 283, 27);
+		contentPane.add(tel);
 	}
 }
